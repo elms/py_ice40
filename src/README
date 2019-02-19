@@ -1,4 +1,31 @@
+Goal
+====
+Generalized utility to configure iCE40 from SBC.
 
+```
+sudo python3 config.py rgb.bin
+```
+
+Troubleshooting
+---------------
+
+# If you get a SPIError check that the the SPI device is enabled and present `ls /dev/spidev*`
+
+To enable on Raspberry Pi
+```
+sudo raspi-config nonint do_spi 0
+```
+
+# GPIOError
+
+Check that you have GPIO enabled and have permission
+
+```
+ls -l /sys/class/gpio
+```
+
+Sketch of plan
+--------------
 top level options
  - speed
  - flash or sram
@@ -26,4 +53,6 @@ Hardware support
 - bitbang
 - FTDI chips
  - USB id
+
+
 
