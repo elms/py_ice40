@@ -6,15 +6,13 @@ class config(object):
   DONE_ITS = 100
   CHUNK = 4*1024
   DELAY = 10e-3
+  MODE = 3
   
   def __init__(self, ss_pin, cdone_pin, creset_pin, speed, spidev_path):
     self.ss = GPIO(ss_pin, 'out')
     self.cdone = GPIO(cdone_pin, 'in')
     self.creset = GPIO(creset_pin, 'out')
-
-    # mode
-    mode = 3
-    self.spidev = SPI(spidev_path, mode, speed, extra_flags=0x40)
+    self.spidev = SPI(spidev_path, self.MODE, speed)
 
   def sleep(self):
     time.sleep(self.DELAY)
