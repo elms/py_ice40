@@ -8,11 +8,11 @@ class config(object):
   DELAY = 10e-3
   MODE = 3
   
-  def __init__(self, ss_pin, cdone_pin, creset_pin, speed, spidev_path):
+  def __init__(self, ss_pin, cdone_pin, creset_pin, speed, spidev=SPI(spidev_path, self.MODE, speed)):
     self.ss = GPIO(ss_pin, 'out')
     self.cdone = GPIO(cdone_pin, 'in')
     self.creset = GPIO(creset_pin, 'out')
-    self.spidev = SPI(spidev_path, self.MODE, speed)
+    self.spidev = spidev
 
   def sleep(self):
     time.sleep(self.DELAY)
