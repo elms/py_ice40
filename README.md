@@ -1,10 +1,23 @@
+Work in progress
+
 Goal
 ====
 Generalized utility to configure iCE40 from SBC.
 
+How to use
+----------
+
 ```
 sudo python3 config.py rgb.bin
 ```
+
+Why no iceprog?
+---------------
+
+`iceprog` is great if you are using an FTDI chip. The idea is to have
+one tool for beginners and experts that can support most if not all
+iCE40 dev boards.
+
 
 Troubleshooting
 ---------------
