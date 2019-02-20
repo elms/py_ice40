@@ -1,44 +1,39 @@
-Work in progress
+![experimental](https://img.shields.io/badge/-Work_in_Progress-orange.svg)
 
-Goal
-====
+# Goal
+
 Generalized utility to configure iCE40 from SBC.
 
-How to use
-----------
-
-```
-sudo python3 config.py rgb.bin
-```
-
-Why no iceprog?
----------------
+## Why no iceprog?
 
 `iceprog` is great if you are using an FTDI chip. The idea is to have
 one tool for beginners and experts that can support most if not all
 iCE40 dev boards.
 
+# How to use
 
-Troubleshooting
----------------
-
-# If you get a SPIError check that the the SPI device is enabled and present `ls /dev/spidev*`
-
-To enable on Raspberry Pi
-```
-sudo raspi-config nonint do_spi 0
+```shell
+sudo python3 config.py rgb.bin
 ```
 
-# GPIOError
+## Troubleshooting
 
-Check that you have GPIO enabled and have permission
+1. If you get a SPIError check that the the SPI device is enabled and present `ls /dev/spidev*`
 
-```
-ls -l /sys/class/gpio
-```
+   To enable on Raspberry Pi:
+   ```shell
+   sudo raspi-config nonint do_spi 0
+   ```
 
-Sketch of plan
---------------
+2. GPIOError
+
+   Check that you have GPIO enabled and have permission:
+   ```shell
+   ls -l /sys/class/gpio
+   ```
+
+# Sketch of plan
+
 top level options
  - speed
  - flash or sram
@@ -62,10 +57,16 @@ Intrepid
  - support reset of multiple for flash
 
 Hardware support
-- spidev and gpio
+ spidev and gpio
 - bitbang
 - FTDI chips
  - USB id
 
-
-
+# TODO
+ - [x] config FPGA
+ - [x] flash access
+ - [ ] options compatible with iceprog
+ - Device interfaces
+   - [x] SPIdev/GPIO support
+   - [ ] FTDI support
+   - [ ] FX2 support
