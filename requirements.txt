@@ -1,1 +1,2 @@
 python-periphery>=1.1.1
+pylibftdi>=0.12.0

@@ -7,7 +7,7 @@ class config(object):
   CHUNK = 4*1024
   DELAY = 10e-3
   MODE = 3
-  
+
   def __init__(self, ss_pin, cdone_pin, creset_pin, speed, spidev=SPI(spidev_path, self.MODE, speed)):
     self.ss = GPIO(ss_pin, 'out')
     self.cdone = GPIO(cdone_pin, 'in')
@@ -16,7 +16,7 @@ class config(object):
 
   def sleep(self):
     time.sleep(self.DELAY)
-    
+
   def set_ss(self, val):
     self.ss.write(val)
 
@@ -34,7 +34,7 @@ class config(object):
       done = self.cdone.read()
       cnt += 1
     return done
-      
+
   def sram_config(self, image):
     self.reset(True)
     self.sleep()

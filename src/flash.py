@@ -14,7 +14,7 @@ class flash(object):
     CE      = 0xC7
     BE64    = 0xD8
 
-    
+
     def __init__(self, spidev):
         self.spidev = spidev
 
@@ -27,10 +27,10 @@ class flash(object):
     def _log(self, msg):
         print(msg, file=sys.stderr)
         sys.stderr.flush()
-        
+
     def get24bitaddr(self, addr):
         return [(addr >> 16) & 0xff, (addr >> 8) & 0xff, addr & 0xff]
-    
+
     def reset(self):
         return self.spidev.transfer([0xff, 0xff])
 
@@ -53,7 +53,7 @@ class flash(object):
 
     def write_enable(self):
         return self.spidev.transfer([self.WE])
-    
+
     def prog(self, addr, data):
         addr24 = self.get24bitaddr(addr)
         self._log('prog {:X} {} {}'.format(addr, addr24, data))
@@ -80,7 +80,7 @@ class flash(object):
                 self._log('.')
                 count = 0
         return stat
-        
+
     def jedic_id(self, num=5):
         res = self.spidev.transfer([self.JEDICID] + num*[0x00])
         return res[1:]
@@ -97,7 +97,7 @@ def main():
     # TODO: hack for testing
     GPIO(17, 'out').write(False)
     GPIO(27, 'out').write(False)
-    
+
     with flash(SPI('/dev/spidev0.0', 3, 1e6)) as f:
         print(f.reset())
         print(f.power_up())
@@ -129,7 +129,7 @@ def main():
 
         print('read post', f.read(addr, 100))
         print(f.power_down())
-        
-        
+
+
 if __name__ == '__main__':
     main()
