@@ -26,8 +26,12 @@ class example2(config.config):
         self.flash_switch.write(False)
 
 
-def main(fname):
-  cfg = example2()
+def main(argv):
+  fname = argv[2]
+  if argv[1] == '-1':
+    cfg = example1()
+  else:
+    cfg = example2()
   with open(fname, 'rb') as f:
     image = f.read()
   cfg.sram_config(image)
@@ -37,4 +41,4 @@ def main(fname):
 
 if __name__ == '__main__':
   import sys
-  main(sys.argv[1])
+  main(sys.argv)
