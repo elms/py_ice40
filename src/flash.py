@@ -24,8 +24,8 @@ class flash(object):
     def __exit__(self, dtype, value, traceback):
         self.spidev.close()
 
-    def _log(self, msg):
-        print(msg, file=sys.stderr)
+    def _log(self, msg, *args, **kwargs):
+        print(msg, *args, **kwargs, file=sys.stderr)
         sys.stderr.flush()
 
     def get24bitaddr(self, addr):
@@ -71,13 +71,13 @@ class flash(object):
             stat = self.read_status()
             if stat & 0x01 == 0:
                 if count < 2:
-                    self._log('r')
+                    self._log('r', end='')
                     count += 1
                 else:
                     self._log('R')
                     break
             else:
-                self._log('.')
+                self._log('.', end='')
                 count = 0
         return stat
 

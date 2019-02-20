@@ -8,7 +8,7 @@ class config(object):
   DELAY = 10e-3
   MODE = 3
 
-  def __init__(self, ss_pin, cdone_pin, creset_pin, speed, spidev=SPI(spidev_path, self.MODE, speed)):
+  def __init__(self, ss_pin, cdone_pin, creset_pin, spidev):
     self.ss = GPIO(ss_pin, 'out')
     self.cdone = GPIO(cdone_pin, 'in')
     self.creset = GPIO(creset_pin, 'out')
