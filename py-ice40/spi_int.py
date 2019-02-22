@@ -5,10 +5,12 @@ import pylibftdi
 import sys
 import time
 
+
 class SpiNotImplemented(Exception):
     pass
 
-class spi_interface():
+
+class spi_interface:
     def __init__(self, speed, mode, **kwargs):
         pass
 
@@ -24,23 +26,25 @@ class spi_interface():
     def close(self):
         raise SpiNotImplemented()
 
+
 SpiDev = periphery.SPI
 
-BITMODE_MPSEE  = 0x2
+BITMODE_MPSEE = 0x2
 
-MC_SETB_LOW    = 0x80
-MC_TCK_D5      = 0x8B
+MC_SETB_LOW = 0x80
+MC_TCK_D5 = 0x8B
 MC_SET_CLK_DIV = 0x86
 
-MC_DATA_TMS  = 0x40
-MC_DATA_IN   = 0x20
-MC_DATA_OUT  = 0x10
-MC_DATA_LSB  = 0x08
-MC_DATA_ICN  = 0x04
+MC_DATA_TMS = 0x40
+MC_DATA_IN = 0x20
+MC_DATA_OUT = 0x10
+MC_DATA_LSB = 0x08
+MC_DATA_ICN = 0x04
 MC_DATA_BITS = 0x02
-MC_DATA_OCN  = 0x01
+MC_DATA_OCN = 0x01
 
 from ctypes import byref, create_string_buffer
+
 
 class spi_ftdi(spi_interface):
     def __init__(self, speed, mode, interface=None, **kwargs):
@@ -55,20 +59,21 @@ class spi_ftdi(spi_interface):
         self._close()
 
     def _close(self):
-        #self.dev.close()
+        # self.dev.close()
         pass
 
     def _open(self):
         # TODO: check return codes
         rc = self.dev.ftdi_fn.ftdi_usb_reset()
         rc |= self.dev.ftdi_fn.ftdi_usb_purge_buffers()
-        rc |= self.dev.ftdi_fn.ftdi_set_bitmode(0xff, BITMODE_MPSEE)
+        rc |= self.dev.ftdi_fn.ftdi_set_bitmode(0xFF, BITMODE_MPSEE)
         rc |= self.dev.ftdi_fn.ftdi_set_latency_timer(1)
 
-        if rc != 0: print('rc', rc)
+        if rc != 0:
+            print("rc", rc)
         self._write([MC_TCK_D5])
         self._write([MC_SET_CLK_DIV, 119, 0x00])
-        #self._write([MC_SET_CLK_DIV, 0x00, 0x00])
+        # self._write([MC_SET_CLK_DIV, 0x00, 0x00])
 
         self._write([MC_SETB_LOW, 0x10, 0x13])
 
@@ -78,13 +83,13 @@ class spi_ftdi(spi_interface):
             buf_len = len(data)
             rc = self.dev.ftdi_fn.ftdi_write_data(byref(buf), buf_len)
         else:
-            arr = array.array('B', data)
+            arr = array.array("B", data)
             buf_addr, buf_len = arr.buffer_info()
             print(data, buf_addr, buf_len)
-            rc = self.dev.ftdi_fn.ftdi_write_data(buf_addr, buf_len);
+            rc = self.dev.ftdi_fn.ftdi_write_data(buf_addr, buf_len)
 
         if rc < buf_len:
-            print('write {} , expected {}'.format(rc, buf_len), file=sys.stderr)
+            print("write {} , expected {}".format(rc, buf_len), file=sys.stderr)
 
         return rc
 
@@ -101,12 +106,12 @@ class spi_ftdi(spi_interface):
             rc = self.dev.ftdi_fn.ftdi_read_data(byref(buf), num)
             arr = buf.raw[:rc]
         else:
-            arr = array.array('B', num*[0])
+            arr = array.array("B", num * [0])
             buf_addr, buf_len = arr.buffer_info()
             rc = self.dev.ftdi_fn.ftdi_read_data(buf_addr, buf_len)
 
         if rc < 0:
-            print('read {} , expected {}'.format(rc, num), file=sys.stderr)
+            print("read {} , expected {}".format(rc, num), file=sys.stderr)
             return []
 
         return arr[:rc]
@@ -115,8 +120,11 @@ class spi_ftdi(spi_interface):
         self._write([MC_SETB_LOW, 0x00, 0x13])
 
         nb = len(data)
-        setup = [MC_DATA_IN | MC_DATA_OUT | MC_DATA_OCN,
-                 (nb - 1) & 0xff, ((nb - 1) >> 8) & 0xff]
+        setup = [
+            MC_DATA_IN | MC_DATA_OUT | MC_DATA_OCN,
+            (nb - 1) & 0xFF,
+            ((nb - 1) >> 8) & 0xFF,
+        ]
 
         self._write(setup)
         self._write(data)
@@ -129,7 +137,6 @@ class spi_ftdi(spi_interface):
 
         self._write([MC_SETB_LOW, 0x10, 0x13])
 
-
         return res
 
 
@@ -139,9 +146,7 @@ class spi_fx2(spi_interface):
 
     def transer(self, data):
         if not isinstance(data, [bytes]):
-            raise SpiException('expected bytes type for data')
+            raise SpiException("expected bytes type for data")
 
     def close(self):
         pass
-
-
