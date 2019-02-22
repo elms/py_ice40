@@ -1,7 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from .config import config
-from periphery import GPIO, SPI
+try:
+    from config import config
+    from spi_int import SpiDev
+except:
+    from .config import config
+    from .spi_int import SpiDev
+
+from periphery import GPIO
 
 
 class example1(config):
@@ -13,7 +19,7 @@ class example1(config):
         speed=1e6,
         spidev_path="/dev/spidev0.0",
     ):
-        self.spidev = SPI(spidev_path, self.MODE, speed)
+        self.spidev = SpiDev(spidev_path, self.MODE, speed)
         super().__init__(ss_pin, cdone_pin, creset_pin, self.spidev)
 
         # set SPI switch for FPGA to be SPI slave
@@ -35,7 +41,7 @@ class example2(config):
         speed=1e6,
         spidev_path="/dev/spidev0.1",
     ):
-        self.spidev = SPI(spidev_path, self.MODE, speed)
+        self.spidev = SpiDev(spidev_path, self.MODE, speed)
         super().__init__(ss_pin, cdone_pin, creset_pin, self.spidev)
 
         # HACK: reset FPGA 1

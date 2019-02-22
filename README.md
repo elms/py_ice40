@@ -13,7 +13,7 @@ iCE40 dev boards.
 # How to use
 
 ```shell
-sudo python3 config.py rgb.bin
+sudo ./py_ice40/example_config.py <binfile>
 ```
 
 ## Troubleshooting
