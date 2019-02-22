@@ -92,7 +92,7 @@ class flash(object):
         return res[4:]
 
 
-def main():
+def example_write_readback():
     from periphery import GPIO, SPI
 
     # TODO: hack for testing
@@ -133,4 +133,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    example_write_readback()

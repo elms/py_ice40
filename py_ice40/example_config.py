@@ -1,8 +1,10 @@
-import config
+#!/usr/bin/env python
+
+from .config import config
 from periphery import GPIO, SPI
 
 
-class example1(config.config):
+class example1(config):
     def __init__(
         self,
         ss_pin=8,
@@ -23,7 +25,7 @@ class example1(config.config):
         self.flash_switch.write(False)
 
 
-class example2(config.config):
+class example2(config):
     # TODO: ss_pin should be 7 for rework
     def __init__(
         self,
@@ -41,7 +43,9 @@ class example2(config.config):
         self.flash_switch.write(False)
 
 
-def main(argv):
+def main():
+    from sys import argv
+
     fname = argv[2]
     if argv[1] == "-1":
         cfg = example1()
@@ -56,6 +60,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    import sys
-
-    main(sys.argv)
+    main()
