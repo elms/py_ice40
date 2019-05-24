@@ -35,7 +35,7 @@ class example2(config):
     # TODO: ss_pin should be 7 for rework
     def __init__(
         self,
-        ss_pin=1,
+        ss_pin=7, # 1
         cdone_pin=22,
         creset_pin=27,
         speed=1e6,

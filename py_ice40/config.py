@@ -54,7 +54,7 @@ class config(object):
 
 
 def main(fname):
-    cfg = config()
+    cfg = config(8, 17, 27, SPI("/dev/spidev0.0", mode=2, max_speed=1e5))
     with open(fname, "rb") as f:
         image = f.read()
     cfg.sram_config(image)
